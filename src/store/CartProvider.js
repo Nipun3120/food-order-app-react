@@ -11,7 +11,7 @@ const defaultCartState = {
 
 const cartReducer = (state, action)=> {
     if(action.type === 'ADD_TO_CART') {
-        const itemsInCart = state.item.concat(action.item);
+        const itemsInCart = state.items.concat(action.item);
         const itemsTotalAmount = state.totalAmount + action.item.price * action.item.count;
         return {
             items: itemsInCart,
