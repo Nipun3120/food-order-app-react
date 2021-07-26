@@ -8,35 +8,41 @@ const MealItemForm = (props) => {
     const [amountValid, setAmountValid] = useState(true);
     
 
-    const addItemToCartHandler = (event)=> {
+    const addItemToCartHandler = (event) => {
         event.preventDefault();
-        const a = event.target.value;
-        console.log(a)
-        const enteredAmount = '1 ';
-        const enteredAmountCount = +enteredAmount;
-
-        if(enteredAmount.trim().length === 0 || enteredAmountCount < 1 || enteredAmountCount > 8) {
+    
+        const enteredAmount = inputAmountRef.current.value;
+        const enteredAmountNumber = +enteredAmount;
+    
+        if (
+          enteredAmount.trim().length === 0 ||
+          enteredAmountNumber < 1 ||
+          enteredAmountNumber > 5
+        ) {
             setAmountValid(false);
-            return;
+          return;
         }
-        
-        props.onAddToCart(enteredAmountCount);
-    };
+    
+        console.log(enteredAmountNumber);
+        props.onAddToCart(enteredAmountNumber);
+      };
 
     
 
     return (
         <form className={classes.form} onSubmit={addItemToCartHandler}>
-            <Input label='Amount' input={{
-                ref:{inputAmountRef},
-                id: 'amount_' + props.id,
-                type: 'number',
-                min: '1',
-                max: '9',
-                stpe: '1',
-                defaultValue: '1'
+            <Input 
+                ref={inputAmountRef}
+                label='Amount'
+                input={{
+                    id: 'amount_' + props.id,
+                    type: 'number',
+                    min: '1',
+                    max: '9',
+                    stpe: '1',
+                    defaultValue: '1'   
             }}/>
-                <button className={classes.button} >Add</button>
+                <button className={classes.button} type='submit'>Add</button>
                 {!amountValid && <p>Please enter a valid amount</p>}
         </form>
     )

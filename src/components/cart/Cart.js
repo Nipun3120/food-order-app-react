@@ -1,34 +1,50 @@
-import React from 'react'
-import classes from '../../assets/css/Cart/Cart.module.css';
+import React, {useContext} from 'react'
+import CartItem from './CartItem';
 import Modal from '../UI/Modal';
 
+import classes from '../../assets/css/Cart/Cart.module.css';
+import CartContext from '../../store/Cart-context';
+
 const Cart = (props) => {
-    const cartItems = 
-    <ul className={classes['cart-item']}> {[
-        {
-            id: 'c1',
-            name: 'Pizza',
-            amount: '2',
-            price: 100
-        }].map(item=> <li>{item.name}</li>)}
-    </ul>;
+  const cartCtx = useContext(CartContext);
 
+  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+  const hasItems = cartCtx.items.length > 0;
 
+  const cartItemRemoveHandler = (id) => {};
 
+  const cartItemAddHandler = (item) => {};
 
-    return (
-        <Modal onClickBackdrop={props.onHideDisplay}>
-           {cartItems}
-            <div className={classes.total}>
-                <span>Total Amount</span>
-                <span>120</span>
-            </div> 
-            <div className={classes.actions}>
-                <button className={classes['button--alt']} onClick={props.onHideDisplay}>Close</button>   
-                <button className={classes.button}>Order</button>
-            </div> 
-        </Modal>
-    )
-}
+  const cartItems = (
+    <ul className={classes['cart-items']}>
+      {cartCtx.items.map((item) => (
+        <CartItem
+          key={item.id}
+          name={item.name}
+          amount={item.amount}
+          price={item.price}
+          onRemove={cartItemRemoveHandler.bind(null, item.id)}
+          onAdd={cartItemAddHandler.bind(null, item)}
+        />
+      ))}
+    </ul>
+  );
 
-export default Cart
+  return (
+    <Modal onClose={props.onHideDisplay}>
+      {cartItems}
+      <div className={classes.total}>
+        <span>Total Amount</span>
+        <span>{totalAmount}</span>
+      </div>
+      <div className={classes.actions}>
+        <button className={classes['button--alt']} onClick={props.onHideDisplay}>
+          Close
+        </button>
+        {hasItems && <button className={classes.button}>Order</button>}
+      </div>
+    </Modal>
+  );
+};
+
+export default Cart;
