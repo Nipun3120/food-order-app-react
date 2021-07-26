@@ -9,7 +9,7 @@ const MealsSummary = () => {
         </p>
 
         <p>
-            All our meals are cooked with high- qiality ingredients, just-in-time and of course by experiences chefs!!
+            All our meals are cooked with high-quality ingredients, just-in-time and of course by experiences chefs!!
         </p>
     </section>
 }
